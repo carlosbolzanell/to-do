@@ -47,7 +47,7 @@ export default function HomePage({ navigation }) {
                 data={tasks}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Pressable style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between' }} onPress={()=> {console.log('clicado')}}>
+                    <Pressable onPress={()=>{navigation.navigate("TaskPage")}} style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View>
                             <Text>{item.text}</Text>
                             <Text>{item.modified}</Text>

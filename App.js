@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomePage from './src/HomePage';
 import TaskList from './src/TaskList';
+import TaskPage from './src/TaskPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="TaskList" component={TaskList} />
+        <Stack.Screen name="TaskPage" component={TaskPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
