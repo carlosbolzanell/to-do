@@ -6,8 +6,6 @@ import { useIsFocused } from "@react-navigation/native";
 export default function HomePage({ navigation }) {
     const [tasks, setTasks] = useState([]);
 
-    useEffect(() => { loadTasks }, []);
-
     const focus = useIsFocused();
     useEffect(() => { loadTasks() }, [focus]);
 
@@ -47,12 +45,19 @@ export default function HomePage({ navigation }) {
                 data={tasks}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Pressable onPress={()=>{navigation.navigate("TaskPage")}} style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Pressable onPress={()=>{navigation.navigate("TaskPage", {list: item})}} style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                         <View>
                             <Text>{item.text}</Text>
-                            <Text>{item.modified}</Text>
                         </View>
                         <View>
+                            <Text>{item.modified}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+                            <Pressable onPress={() => {
+                                navigation.navigate('TaskList');
+                            }}>
+                                <Text style={{fontSize: 25}}>🖊</Text>
+                            </Pressable>
                             <Pressable onPress={() => {
                                 removeItem(item);
                             }}>

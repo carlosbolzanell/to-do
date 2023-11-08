@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, FlatList, Pressable, Text } from 'react-native';
+import { View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
 import { useIsFocused } from "@react-navigation/native";
@@ -7,6 +7,8 @@ import { useIsFocused } from "@react-navigation/native";
 const TaskList = ({ navigation }) => {
     const [tasks, setTasks] = useState([]);
     const [taskText, setTaskText] = useState('');
+    const [cont, setCont] = useState(0);
+    const [propose, setPropose] = useState('');
 
     const focus = useIsFocused();
     useEffect(()=> {loadTasks()}, [focus]);
@@ -17,7 +19,6 @@ const TaskList = ({ navigation }) => {
             if (tasksFromStorage) {
                 setTasks(JSON.parse(tasksFromStorage));
             }
-            console.log(tasks);
         } catch (error) {
             console.error('Erro ao carregar tarefas: ', error);
         }
@@ -28,11 +29,11 @@ const TaskList = ({ navigation }) => {
 
         const newTask = {
             text: taskText,
-            modified: format(new Date(), 'HH:mm:ss dd-MM-yyyy'),
+            modified: format(new Date(), 'dd/MM/yyyy  HH:mm:ss'),
+            itens: ["Carlos", "Baseggio"],
         };
 
         const updatedTasks = [...tasks, newTask];
-        console.log(updatedTasks);
 
         try {
             await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
