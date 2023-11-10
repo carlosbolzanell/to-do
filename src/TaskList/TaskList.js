@@ -4,13 +4,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
 import { useIsFocused } from "@react-navigation/native";
 
-const TaskList = ({ navigation }) => {
+const TaskList = ({ navigation , route}) => {
     const [tasks, setTasks] = useState([]);
     const [taskText, setTaskText] = useState('');
-    const [propose, setPropose] = useState('');
-
+    const { propose , item} = route.params;
+    const [itemName, setItemName] = useState("");
+    
     const focus = useIsFocused();
-    useEffect(()=> {loadTasks()}, [focus]);
+    useEffect(()=> {
+        loadTasks()
+        if(item){
+            setItemName(item.text);
+        }
+    }, [focus]);
 
     const loadTasks = async () => {
         try {
@@ -43,15 +49,30 @@ const TaskList = ({ navigation }) => {
         }
     };
 
+    const editTask = async () =>{
+        const tasksInStorage = await AsyncStorage.getItem('tasks');
+        if (tasksInStorage) {
+            const parsedTasks = JSON.parse(tasksInStorage);
+            const updatedTasks = parsedTasks.map((t) => {
+                if (t.text === item.text) {
+                    t.text = itemName
+                    t.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss')
+                }
+                return t;
+            });
+            await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+        }
+    }
+
     return (
         <View>
             <TextInput
-                placeholder="Adicionar tarefa"
-                value={taskText}
-                onChangeText={text => setTaskText(text)}
+                placeholder= {`${propose} tarefa`}
+                value = {(propose == 'add' ? taskText : itemName)}
+                onChangeText={(propose == 'add' ? setTaskText : setItemName)}
             />
-            <Button title="Adicionar" onPress={() => {
-                saveTask()
+            <Button title={propose} onPress={() => {
+                (propose == 'add' ? saveTask() : editTask());
                 navigation.navigate('Home');
             }}
             />

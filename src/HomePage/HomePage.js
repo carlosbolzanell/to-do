@@ -37,7 +37,7 @@ export default function HomePage({ navigation }) {
             <Button
                 title="Adicionar Tarefa"
                 onPress={() => {
-                    navigation.navigate("TaskList")
+                    navigation.navigate("TaskList", {propose: 'add'});
                 }}
             />
 
@@ -54,7 +54,10 @@ export default function HomePage({ navigation }) {
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
                             <Pressable onPress={() => {
-                                navigation.navigate('TaskList');
+                                navigation.navigate('TaskList', {
+                                    propose: 'edit',
+                                    item: item
+                                });
                             }}>
                                 <Text style={{fontSize: 25}}>🖊</Text>
                             </Pressable>

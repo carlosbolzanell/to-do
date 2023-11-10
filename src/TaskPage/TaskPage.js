@@ -18,7 +18,6 @@ export default function TaskPage({ navigation, route }) {
             JSON.parse(tasksFromStorage).forEach((item) => {
                 if (item.text == list.text) {
                     setItens(item.itens);
-                    //    console.log(itens)
                 }
             })
         } catch (error) {
