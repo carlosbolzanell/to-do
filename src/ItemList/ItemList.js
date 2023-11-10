@@ -1,55 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
-import { useIsFocused } from "@react-navigation/native";
 
-export default function ItemList ({navigation, route}){
+export default function ItemList({ navigation, route }) {
 
-    const {task} = route.params;
+    const { atualTask } = route.params;
 
     const [taskText, setTaskText] = useState('');
 
-    const saveTask = async () => {
-        if (taskText.trim() === '') return;
-
-        const newTask = {
-            text: taskText,
-            modified: format(new Date(), 'dd/MM/yyyy  HH:mm:ss'),
-        };
-
-        const updatedTasks = [...tasks, newTask];
-
-        try {
-            await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
-            setTaskText('');
-            setTasks(updatedTasks);
-        } catch (error) {
-            console.error('Erro ao salvar tarefa: ', error);
-        }
-    };
-
-    const saveItem = () =>{
-        // if(taskText.trim() === '') return;
-
+    const saveItem = async () => {
         const newItem = {
             name: taskText,
             modified: format(new Date(), 'dd/MM/yyyy  HH:mm:ss'),
         };
-        
-        task.itens.push(newItem);
-        setTaskText('');
+
+        const tasksInStorage = await AsyncStorage.getItem('tasks');
+        if (tasksInStorage) {
+            const parsedTasks = JSON.parse(tasksInStorage);
+            const updatedTasks = parsedTasks.map((t) => {
+                if (t.text === atualTask.text) {
+                    t.itens.push(newItem);
+                }
+                return t;
+            });
+            console.log(updatedTasks)
+            await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+        }
     }
 
-    return(
+    return (
         <View>
             <TextInput
                 placeholder="Adicionar Item"
-                onChangeText={()=>{text=>setTaskText(text)}}
+                onChangeText={setTaskText}
             />
-            <Button title="Adicionar" onPress={()=>{
+            <Button title="Adicionar" onPress={() => {
                 saveItem()
-                navigation.navigate("TaskPage", { list: task})}
+                navigation.navigate("TaskPage", { list: atualTask })
+            }
             } />
         </View>
     )

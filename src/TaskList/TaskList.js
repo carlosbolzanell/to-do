@@ -7,7 +7,6 @@ import { useIsFocused } from "@react-navigation/native";
 const TaskList = ({ navigation }) => {
     const [tasks, setTasks] = useState([]);
     const [taskText, setTaskText] = useState('');
-    const [cont, setCont] = useState(0);
     const [propose, setPropose] = useState('');
 
     const focus = useIsFocused();
@@ -30,7 +29,7 @@ const TaskList = ({ navigation }) => {
         const newTask = {
             text: taskText,
             modified: format(new Date(), 'dd/MM/yyyy  HH:mm:ss'),
-            itens: ["Carlos", "Baseggio"],
+            itens: [],
         };
 
         const updatedTasks = [...tasks, newTask];
