@@ -20,6 +20,7 @@ export default function ItemList({ navigation, route }) {
             const parsedTasks = JSON.parse(tasksInStorage);
             const updatedTasks = parsedTasks.map((t) => {
                 if (t.text === atualTask.text) {
+                    t.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss');
                     t.itens.push(newItem);
                 }
                 return t;

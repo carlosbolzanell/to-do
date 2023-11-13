@@ -2,6 +2,7 @@ import { View, Text, Button, FlatList, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import { format } from 'date-fns';
 
 export default function TaskPage({ navigation, route }) {
 
@@ -33,6 +34,7 @@ export default function TaskPage({ navigation, route }) {
             const updatedTasks = parsedTasks.map((t) => {
                 if (t.text === list.text) {
                     const newItens = t.itens.filter(task => task.name != item.name)
+                    t.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss');
                     t.itens = newItens;
                     setItens(newItens);
                 }
