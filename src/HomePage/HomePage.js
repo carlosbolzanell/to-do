@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
-import { format } from 'date-fns';
 
 export default function HomePage({ navigation }) {
     const [tasks, setTasks] = useState([]);
-
+    const { compareDesc } = require('date-fns');
     const focus = useIsFocused();
-    useEffect(() => { loadTasks() }, [focus]);
+    
+    useEffect(() => { 
+        loadTasks()
+        sortLists(compare);
+    }, [focus]);
+
+    const compare = (a, b) =>{
+        return compareDesc(a.modified, b.modified);
+    }
+
+    const sortLists = (sort) => {
+        const newLists = [...tasks];
+        newLists.sort(sort);
+        setTasks([...newLists]);
+    }
 
     const removeItem = async (item) =>{
         let taskTmp = [...tasks];
