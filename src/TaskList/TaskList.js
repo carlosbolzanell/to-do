@@ -47,6 +47,7 @@ const TaskList = ({ navigation , route}) => {
         } catch (error) {
             console.error('Erro ao salvar tarefa: ', error);
         }
+        navigation.navigate('Home');
     };
 
     const editTask = async () =>{
@@ -62,6 +63,7 @@ const TaskList = ({ navigation , route}) => {
             });
             await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
         }
+        navigation.navigate('Home');
     }
 
     return (
@@ -73,7 +75,6 @@ const TaskList = ({ navigation , route}) => {
             />
             <Button title={propose} onPress={() => {
                 (propose == 'add' ? saveTask() : editTask());
-                navigation.navigate('Home');
             }}
             />
 

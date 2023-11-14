@@ -52,7 +52,10 @@ export default function TaskPage({ navigation, route }) {
             <Button
                 title="Adicionar Item"
                 onPress={() => {
-                    navigation.navigate("ItemList", { atualTask: list })
+                    navigation.navigate("ItemList", { 
+                        atualTask: list,
+                        propose: 'Adicionar'
+                    })
                 }}
             />
 
@@ -69,7 +72,11 @@ export default function TaskPage({ navigation, route }) {
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                             <Pressable onPress={() => {
-                                navigation.navigate('ItemList');
+                                navigation.navigate('ItemList', {
+                                    atualTask: list, 
+                                    propose: 'Editar',
+                                    itemEdit:item
+                                });
                             }}>
                                 <Text style={{ fontSize: 25 }}>🖊</Text>
                             </Pressable>

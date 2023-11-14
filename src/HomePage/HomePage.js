@@ -2,25 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
+import { parse } from 'date-fns';
 
 export default function HomePage({ navigation }) {
-    const [tasks, setTasks] = useState([]);
-    const { compareDesc } = require('date-fns');
+    const [tasks, setTasks] = useState([]); 
     const focus = useIsFocused();
     
     useEffect(() => { 
         loadTasks()
-        sortLists(compare);
     }, [focus]);
 
-    const compare = (a, b) =>{
-        return compareDesc(a.modified, b.modified);
+    function parseDateString(dateString) {
+        return parse(dateString, 'dd/MM/yyyy HH:mm:ss', new Date());
     }
 
-    const sortLists = (sort) => {
-        const newLists = [...tasks];
-        newLists.sort(sort);
-        setTasks([...newLists]);
+    const orderList = async() =>{
+        const newList = [...tasks];
+        newList.sort((a, b) => parseDateString(a.modified) - parseDateString(b.modified));
+        try{
+            await AsyncStorage.setItem('tasks', JSON.stringify(newList));
+            setTasks(newList); 
+        }catch{
+            console.log("Erro ao setar as tasks", error);
+        }
     }
 
     const removeItem = async (item) =>{
@@ -51,6 +55,7 @@ export default function HomePage({ navigation }) {
             <Button
                 title="Adicionar Tarefa"
                 onPress={() => {
+                    orderList();
                     navigation.navigate("TaskList", {propose: 'add'});
                 }}
             />
