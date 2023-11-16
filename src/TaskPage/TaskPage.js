@@ -2,7 +2,6 @@ import { View, Text, Button, FlatList, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { format } from 'date-fns';
 
 export default function TaskPage({ navigation, route }) {
 
@@ -12,6 +11,18 @@ export default function TaskPage({ navigation, route }) {
 
     const focus = useIsFocused();
     useEffect(() => { loadItens() }, [focus]);
+
+    const orderItens = () =>{
+        const newItens = [...itens];
+        newItens.sort((a, b) => {
+            if (b.modified >= a.modified) {
+                return 1;
+            } else {
+                return -1
+            }
+        })
+        return newItens;
+    }
 
     const loadItens = async () => {
         try {
@@ -34,7 +45,7 @@ export default function TaskPage({ navigation, route }) {
             const updatedTasks = parsedTasks.map((t) => {
                 if (t.text === list.text) {
                     const newItens = t.itens.filter(task => task.name != item.name)
-                    t.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss');
+                    t.modified = new Date().toLocaleString();
                     t.itens = newItens;
                     setItens(newItens);
                 }
@@ -60,7 +71,7 @@ export default function TaskPage({ navigation, route }) {
             />
 
             <FlatList
-                data={itens}
+                data={orderItens()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
                     <Pressable style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>

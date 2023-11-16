@@ -2,39 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
-import { parse } from 'date-fns';
 
 export default function HomePage({ navigation }) {
-    const [tasks, setTasks] = useState([]); 
+    const [tasks, setTasks] = useState([]);
     const focus = useIsFocused();
-    
-    useEffect(() => { 
+
+    useEffect(() => {
         loadTasks()
     }, [focus]);
 
-    function parseDateString(dateString) {
-        return parse(dateString, 'dd/MM/yyyy HH:mm:ss', new Date());
+    const orderTasks = () =>{
+        const newTasks = [...tasks];
+        newTasks.sort((a, b) => {
+            if (b.modified >= a.modified) {
+                return 1;
+            } else {
+                return -1
+            }
+        })
+        return newTasks;
     }
 
-    const orderList = async() =>{
-        const newList = [...tasks];
-        newList.sort((a, b) => parseDateString(a.modified) - parseDateString(b.modified));
-        try{
-            await AsyncStorage.setItem('tasks', JSON.stringify(newList));
-            setTasks(newList); 
-        }catch{
-            console.log("Erro ao setar as tasks", error);
-        }
-    }
-
-    const removeItem = async (item) =>{
+    const removeItem = async (item) => {
         let taskTmp = [...tasks];
-        const newTasks = taskTmp.filter(task=> task.text != item.text);
+        const newTasks = taskTmp.filter(task => task.text != item.text);
 
-        try{
+        try {
             await AsyncStorage.setItem('tasks', JSON.stringify(newTasks));
             setTasks(newTasks);
-        }catch{
+        } catch {
             console.log("Erro ao setar as tasks", error);
         }
     }
@@ -55,35 +51,34 @@ export default function HomePage({ navigation }) {
             <Button
                 title="Adicionar Tarefa"
                 onPress={() => {
-                    orderList();
-                    navigation.navigate("TaskList", {propose: 'add'});
+                    navigation.navigate("TaskList", { propose: 'add' });
                 }}
             />
 
             <FlatList
-                data={tasks}
+                data={orderTasks()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Pressable onPress={()=>{navigation.navigate("TaskPage", {list: item})}} style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+                    <Pressable onPress={() => { navigation.navigate("TaskPage", { list: item }) }} style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                         <View>
                             <Text>{item.text}</Text>
                         </View>
                         <View>
                             <Text>{item.modified}</Text>
                         </View>
-                        <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                             <Pressable onPress={() => {
                                 navigation.navigate('TaskList', {
                                     propose: 'edit',
                                     item: item
                                 });
                             }}>
-                                <Text style={{fontSize: 25}}>🖊</Text>
+                                <Text style={{ fontSize: 25 }}>🖊</Text>
                             </Pressable>
                             <Pressable onPress={() => {
                                 removeItem(item);
                             }}>
-                                <Text style={{fontSize: 30}}>🗑</Text>
+                                <Text style={{ fontSize: 30 }}>🗑</Text>
                             </Pressable>
                         </View>
                     </Pressable>

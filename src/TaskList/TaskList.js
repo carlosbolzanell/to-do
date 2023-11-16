@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { format } from 'date-fns';
 import { useIsFocused } from "@react-navigation/native";
 
 const TaskList = ({ navigation , route}) => {
@@ -34,7 +33,7 @@ const TaskList = ({ navigation , route}) => {
 
         const newTask = {
             text: taskText,
-            modified: format(new Date(), 'dd/MM/yyyy  HH:mm:ss'),
+            modified: new Date().toLocaleString(),
             itens: [],
         };
 
@@ -57,7 +56,7 @@ const TaskList = ({ navigation , route}) => {
             const updatedTasks = parsedTasks.map((t) => {
                 if (t.text === item.text) {
                     t.text = itemName
-                    t.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss')
+                    t.modified = new Date().toLocaleString()
                 }
                 return t;
             });

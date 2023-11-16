@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { format } from 'date-fns';
 
 export default function ItemList({ navigation, route }) {
 
@@ -13,7 +12,7 @@ export default function ItemList({ navigation, route }) {
     const saveItem = async () => {
         const newItem = {
             name: taskText,
-            modified: format(new Date(), 'dd/MM/yyyy  HH:mm:ss'),
+            modified: new Date().toLocaleString(),
         };
 
         const tasksInStorage = await AsyncStorage.getItem('tasks');
@@ -21,7 +20,7 @@ export default function ItemList({ navigation, route }) {
             const parsedTasks = JSON.parse(tasksInStorage);
             const updatedTasks = parsedTasks.map((t) => {
                 if (t.text === atualTask.text) {
-                    t.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss');
+                    t.modified = new Date().toLocaleString();
                     t.itens.push(newItem);
                 }
                 return t;
@@ -41,7 +40,7 @@ export default function ItemList({ navigation, route }) {
                     t.itens.map((itemEditable)=>{
                         if(itemEditable.name === itemEdit.name){
                             itemEditable.name = editName;
-                            itemEditable.modified = format(new Date(), 'dd/MM/yyyy  HH:mm:ss');
+                            itemEditable.modified = new Date().toLocaleString();
                         }
                     })
                 }
