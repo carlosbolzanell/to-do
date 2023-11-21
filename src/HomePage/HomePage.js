@@ -47,13 +47,13 @@ export default function HomePage({ navigation }) {
     };
 
     return (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{fontSize: 20, textAlign: 'center', marginTop: 20}}>Bem Vindo a sua Lista de Lista de Tarefas</Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 20 }}>Bem Vindo a sua Lista de Lista de Tarefas</Text>
             <Pressable onPress={() => {
-                    navigation.navigate("TaskList", { propose: 'Adicionar' });
-                }} style={{backgroundColor:"purple", borderWidth: 1, borderColor: 'black', width: '75%', height: '30px', margin: 'auto', alignItems: 'center', justifyContent: 'center', marginVertical: 20}}
+                navigation.navigate("TaskList", { propose: 'Adicionar' });
+            }} style={{ backgroundColor: "purple", borderWidth: 1, borderColor: 'black', width: '75%', height: '30px', margin: 'auto', alignItems: 'center', justifyContent: 'center', marginVertical: 20 }}
             >
-                <Text style={{color: 'white'}}>Adicionar Tarefa</Text>
+                <Text style={{ color: 'white' }}>Adicionar Tarefa</Text>
 
             </Pressable>
 
@@ -62,29 +62,31 @@ export default function HomePage({ navigation }) {
                 data={orderTasks()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => { navigation.navigate("TaskPage", { list: item }) }} style={{ borderWidth: 1.5, borderColor: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, width: '85%', margin: 'auto' }}>
-                        <View>
-                            <Text>{item.text}</Text>
-                        </View>
-                        <View>
-                            <Text>{item.modified}</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                            <Pressable onPress={() => {
-                                navigation.navigate('TaskList', {
-                                    propose: 'Editar',
-                                    item: item
-                                });
-                            }}>
-                                <Text style={{ fontSize: 25 }}>🖊</Text>
-                            </Pressable>
-                            <Pressable onPress={() => {
-                                removeItem(item);
-                            }}>
-                                <Text style={{ fontSize: 30 }}>🗑</Text>
-                            </Pressable>
-                        </View>
-                    </Pressable>
+                    <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
+                        <Pressable onPress={() => { navigation.navigate("TaskPage", { list: item }) }} style={{ borderWidth: 1.5, borderColor: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, width: '85%', margin: 'auto' }}>
+                            <View>
+                                <Text>{item.text}</Text>
+                            </View>
+                            <View>
+                                <Text>{item.modified}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                                <Pressable onPress={() => {
+                                    navigation.navigate('TaskList', {
+                                        propose: 'Editar',
+                                        item: item
+                                    });
+                                }}>
+                                    <Text style={{ fontSize: 25 }}>🖊</Text>
+                                </Pressable>
+                                <Pressable onPress={() => {
+                                    removeItem(item);
+                                }}>
+                                    <Text style={{ fontSize: 30 }}>🗑</Text>
+                                </Pressable>
+                            </View>
+                        </Pressable>
+                    </View>
                 )}
             />
         </View>

@@ -74,7 +74,7 @@ export default function TaskPage({ navigation, route }) {
                 data={orderItens()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <View style={{marginBottom: 10}}>
+                    <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
                         <Pressable style={{ borderWidth: 1.5, borderColor: 'black', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, width: '85%', margin: 'auto' }}>
                             <View>
                                 <Text>{item.name}</Text>
