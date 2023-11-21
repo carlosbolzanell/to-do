@@ -37,6 +37,7 @@ export default function ItemList({ navigation, route }) {
             const parsedTasks = JSON.parse(tasksInStorage);
             const updatedTasks = parsedTasks.map((t) => {
                 if (t.text === atualTask.text) {
+                    t.modified = new Date().toLocaleString();
                     t.itens.map((itemEditable)=>{
                         if(itemEditable.name === itemEdit.name){
                             itemEditable.name = editName;
