@@ -47,7 +47,7 @@ export default function HomePage({ navigation }) {
     };
 
     return (
-        <View>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{fontSize: 20, textAlign: 'center', marginTop: 20}}>Bem Vindo a sua Lista de Lista de Tarefas</Text>
             <Pressable onPress={() => {
                     navigation.navigate("TaskList", { propose: 'Adicionar' });

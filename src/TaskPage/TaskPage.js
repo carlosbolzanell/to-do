@@ -57,7 +57,7 @@ export default function TaskPage({ navigation, route }) {
 
     return (
 
-        <View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 20 }}>Lista: {list.text}</Text>
             <Pressable onPress={() => {
                 navigation.navigate("ItemList", {

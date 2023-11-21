@@ -66,7 +66,7 @@ const TaskList = ({ navigation , route}) => {
     }
 
     return (
-        <View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <TextInput
                 placeholder= {`${propose} tarefa`}
                 value = {(propose == 'Adicionar' ? taskText : itemName)}

@@ -52,7 +52,7 @@ export default function ItemList({ navigation, route }) {
     }
 
     return (
-        <View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <TextInput
                 placeholder="Adicionar Item"
                 value = {(propose == 'Adicionar' ? taskText : editName)}
