@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Pressable, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
 
@@ -69,13 +69,17 @@ const TaskList = ({ navigation , route}) => {
         <View>
             <TextInput
                 placeholder= {`${propose} tarefa`}
-                value = {(propose == 'add' ? taskText : itemName)}
-                onChangeText={(propose == 'add' ? setTaskText : setItemName)}
+                value = {(propose == 'Adicionar' ? taskText : itemName)}
+                onChangeText={(propose == 'Adicionar' ? setTaskText : setItemName)}
+                style={{borderWidth: 1, borderColor: 'black', width: '85%', margin: 'auto', height: 25, paddingLeft: 10, marginTop: 20}}
             />
-            <Button title={propose} onPress={() => {
-                (propose == 'add' ? saveTask() : editTask());
-            }}
-            />
+            <Pressable onPress={() => {
+                (propose == 'Adicionar' ? saveTask() : editTask());
+                }} 
+                style={{backgroundColor:"purple", borderWidth: 1, borderColor: 'black', width: '75%', height: '30px', margin: 'auto', alignItems: 'center', justifyContent: 'center', marginVertical: 20}}
+            >
+                <Text style={{color: 'white'}}>{propose}</Text>
+            </Pressable>
 
         </View>
     );

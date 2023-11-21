@@ -12,7 +12,7 @@ export default function TaskPage({ navigation, route }) {
     const focus = useIsFocused();
     useEffect(() => { loadItens() }, [focus]);
 
-    const orderItens = () =>{
+    const orderItens = () => {
         const newItens = [...itens];
         newItens.sort((a, b) => {
             if (b.modified >= a.modified) {
@@ -58,46 +58,48 @@ export default function TaskPage({ navigation, route }) {
     return (
 
         <View>
-            <Text>{list.text}</Text>
+            <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 20 }}>Lista: {list.text}</Text>
+            <Pressable onPress={() => {
+                navigation.navigate("ItemList", {
+                    atualTask: list,
+                    propose: 'Adicionar'
+                })
+            }} style={{ backgroundColor: "purple", borderWidth: 1, borderColor: 'black', width: '75%', height: '30px', margin: 'auto', alignItems: 'center', justifyContent: 'center', marginVertical: 20 }}
+            >
+                <Text style={{ color: 'white' }}>Adicionar Tarefa</Text>
 
-            <Button
-                title="Adicionar Item"
-                onPress={() => {
-                    navigation.navigate("ItemList", { 
-                        atualTask: list,
-                        propose: 'Adicionar'
-                    })
-                }}
-            />
+            </Pressable>
 
             <FlatList
                 data={orderItens()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Pressable style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                        <View>
-                            <Text>{item.name}</Text>
-                        </View>
-                        <View>
-                            <Text>{item.modified}</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                            <Pressable onPress={() => {
-                                navigation.navigate('ItemList', {
-                                    atualTask: list, 
-                                    propose: 'Editar',
-                                    itemEdit:item
-                                });
-                            }}>
-                                <Text style={{ fontSize: 25 }}>🖊</Text>
-                            </Pressable>
-                            <Pressable onPress={() => {
-                                removeItem(item);
-                            }}>
-                                <Text style={{ fontSize: 30 }}>🗑</Text>
-                            </Pressable>
-                        </View>
-                    </Pressable>
+                    <View style={{marginBottom: 10}}>
+                        <Pressable style={{ borderWidth: 1.5, borderColor: 'black', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, width: '85%', margin: 'auto' }}>
+                            <View>
+                                <Text>{item.name}</Text>
+                            </View>
+                            <View>
+                                <Text>{item.modified}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                                <Pressable onPress={() => {
+                                    navigation.navigate('ItemList', {
+                                        atualTask: list,
+                                        propose: 'Editar',
+                                        itemEdit: item
+                                    });
+                                }}>
+                                    <Text style={{ fontSize: 25 }}>🖊</Text>
+                                </Pressable>
+                                <Pressable onPress={() => {
+                                    removeItem(item);
+                                }}>
+                                    <Text style={{ fontSize: 30 }}>🗑</Text>
+                                </Pressable>
+                            </View>
+                        </Pressable>
+                    </View>
                 )}
             />
         </View>

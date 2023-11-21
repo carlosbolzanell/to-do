@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Pressable, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ItemList({ navigation, route }) {
@@ -57,11 +57,15 @@ export default function ItemList({ navigation, route }) {
                 placeholder="Adicionar Item"
                 value = {(propose == 'Adicionar' ? taskText : editName)}
                 onChangeText={(propose == 'Adicionar' ? setTaskText : setEditName)}
+                style={{borderWidth: 1, borderColor: 'black', width: '85%', margin: 'auto', height: 25, paddingLeft: 10, marginTop: 20}}
             />
-            <Button title={propose} onPress={() => {
+            <Pressable onPress={() => {
                 (propose == 'Adicionar' ? saveItem() : editItem());
-            }
-            } />
+                }} 
+                style={{backgroundColor:"purple", borderWidth: 1, borderColor: 'black', width: '75%', height: '30px', margin: 'auto', alignItems: 'center', justifyContent: 'center', marginVertical: 20}}
+            >
+                <Text style={{color: 'white'}}>{propose}</Text>
+            </Pressable>
         </View>
     )
 }

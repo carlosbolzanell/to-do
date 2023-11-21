@@ -11,7 +11,7 @@ export default function HomePage({ navigation }) {
         loadTasks()
     }, [focus]);
 
-    const orderTasks = () =>{
+    const orderTasks = () => {
         const newTasks = [...tasks];
         newTasks.sort((a, b) => {
             if (b.modified >= a.modified) {
@@ -48,18 +48,21 @@ export default function HomePage({ navigation }) {
 
     return (
         <View>
-            <Button
-                title="Adicionar Tarefa"
-                onPress={() => {
-                    navigation.navigate("TaskList", { propose: 'add' });
-                }}
-            />
+            <Text style={{fontSize: 20, textAlign: 'center', marginTop: 20}}>Bem Vindo a sua Lista de Lista de Tarefas</Text>
+            <Pressable onPress={() => {
+                    navigation.navigate("TaskList", { propose: 'Adicionar' });
+                }} style={{backgroundColor:"purple", borderWidth: 1, borderColor: 'black', width: '75%', height: '30px', margin: 'auto', alignItems: 'center', justifyContent: 'center', marginVertical: 20}}
+            >
+                <Text style={{color: 'white'}}>Adicionar Tarefa</Text>
+
+            </Pressable>
+
 
             <FlatList
                 data={orderTasks()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => { navigation.navigate("TaskPage", { list: item }) }} style={{ borderWidth: 1.5, borderColo: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+                    <Pressable onPress={() => { navigation.navigate("TaskPage", { list: item }) }} style={{ borderWidth: 1.5, borderColor: 'black', marginTop: 5, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, width: '85%', margin: 'auto' }}>
                         <View>
                             <Text>{item.text}</Text>
                         </View>
@@ -69,7 +72,7 @@ export default function HomePage({ navigation }) {
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                             <Pressable onPress={() => {
                                 navigation.navigate('TaskList', {
-                                    propose: 'edit',
+                                    propose: 'Editar',
                                     item: item
                                 });
                             }}>
